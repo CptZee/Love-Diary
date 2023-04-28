@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">Love Diary</string>
+    <string name="profile">Profile</string>
+    <string name="message">Messages</string>
+    <string name="notes">Note</string>
+    <string name="social">Socials</string>
+    <string name="gallery">Gallery</string>
+    <string name="search">Search</string>
+</resources>
