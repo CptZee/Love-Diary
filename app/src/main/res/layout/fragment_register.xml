@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/main_color">
@@ -30,7 +31,7 @@
             app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout0"
+            android:id="@+id/textInputLayout1"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -42,37 +43,14 @@
             app:layout_constraintTop_toBottomOf="@+id/profile_username">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/register_code"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:drawableStart="@drawable/ic_qr"
-                android:drawablePadding="5dp"
-                android:hint="Partner Code"
-                android:maxLength="6"
-                android:maxLines="1" />
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/textInputLayout1"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="50dp"
-            android:layout_marginTop="16dp"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            app:endIconMode="clear_text"
-            app:layout_constraintEnd_toEndOf="@+id/textInputLayout0"
-            app:layout_constraintStart_toStartOf="@+id/textInputLayout0"
-            app:layout_constraintTop_toBottomOf="@+id/textInputLayout0">
-
-            <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/register_email"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:inputType="textEmailAddress"
-                android:hint="Email"
                 android:drawableStart="@drawable/ic_mail"
-                android:drawablePadding="5dp"/>
+                android:drawablePadding="5dp"
+                android:hint="Email"
+                android:inputType="textEmailAddress"
+                android:maxLines="1" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout

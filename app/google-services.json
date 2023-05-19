@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "355300738293",
+    "firebase_url": "https://love-diary-46ba6-default-rtdb.asia-southeast1.firebasedatabase.app",
+    "project_id": "love-diary-46ba6",
+    "storage_bucket": "love-diary-46ba6.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:355300738293:android:b3a4ed609d5117e9ecb1bc",
+        "android_client_info": {
+          "package_name": "com.github.cptzee.lovediary"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "355300738293-9oaoamiuio1b4qr094h3daed69a9l7eq.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBFFbsNKbykNkOH_HBN14bosVxz8jfYl08"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "355300738293-9oaoamiuio1b4qr094h3daed69a9l7eq.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
