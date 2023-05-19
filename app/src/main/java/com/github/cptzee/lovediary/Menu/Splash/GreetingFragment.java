@@ -1,7 +1,6 @@
 package com.github.cptzee.lovediary.Menu.Splash;
 
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.View;
 import android.widget.TextView;
 
@@ -22,7 +21,7 @@ public class GreetingFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         TextView textView = view.findViewById(R.id.greetings);
 
-        new Handler().postDelayed(() -> {
+        view.postDelayed(() -> {
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             Fragment fragment = fragmentManager.findFragmentById(R.id.activity_container);
 

@@ -10,17 +10,22 @@ import androidx.fragment.app.Fragment;
 
 import com.github.cptzee.lovediary.AuthActivity;
 import com.github.cptzee.lovediary.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class ProfileFragment extends Fragment {
     public ProfileFragment() {
         super(R.layout.fragment_profile);
     }
 
+    private FirebaseAuth mAuth;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        mAuth = FirebaseAuth.getInstance();
         view.findViewById(R.id.profile_logout_button).setOnClickListener(v->{
+            mAuth.signOut();
             getActivity().finish();
             startActivity(new Intent(getContext(), AuthActivity.class));
         });
