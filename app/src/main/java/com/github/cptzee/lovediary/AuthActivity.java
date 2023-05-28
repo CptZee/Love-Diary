@@ -28,9 +28,4 @@ public class AuthActivity extends AppCompatActivity {
         startActivity(new Intent(this, MainActivity.class));
         finish();
     }
-
-    @Override
-    public void onStart() {
-        super.onStart();
-    }
 }

@@ -20,7 +20,7 @@ public class ForgetPasswordFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        code = view.findViewById(R.id.textInputLayout2);
+        code = view.findViewById(R.id.textInputLayout3);
         code.setVisibility(View.GONE);
     }
 }

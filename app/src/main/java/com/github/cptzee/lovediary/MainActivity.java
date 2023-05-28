@@ -1,14 +1,12 @@
 package com.github.cptzee.lovediary;
 
 import android.os.Bundle;
-import android.util.Log;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.github.cptzee.lovediary.Menu.Gallery.GalleryFragment;
 import com.github.cptzee.lovediary.Menu.Message.MessageFragment;
@@ -33,11 +31,6 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.activity_container, new GreetingFragment())
                 .commit();
 
-        getSupportFragmentManager().beginTransaction()
-                .replace(R.id.main_container, new NoteFragment())
-                .addToBackStack("note")
-                .commit();
-
         navBar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
             @Override
             public void onTabSelected(int i, @Nullable AnimatedBottomBar.Tab tab, int i1, @NonNull AnimatedBottomBar.Tab tab1) {
@@ -49,10 +42,10 @@ public class MainActivity extends AppCompatActivity {
                 updateView(i);
             }
 
-            private void updateView(int i){
+            private void updateView(int i) {
                 Fragment fragment = null;
                 String label = "";
-                switch (i){
+                switch (i) {
                     case 0:
                         fragment = new SocialFragment();
                         label = "social";
@@ -91,13 +84,13 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        if(getSupportFragmentManager().getBackStackEntryCount() == 1){
+        if (getSupportFragmentManager().getBackStackEntryCount() == 1) {
             new AlertDialog.Builder(this)
                     .setMessage("Are you sure you want to exit the application?")
                     .setPositiveButton("Yes", (dialog, which) -> {
                         finish();
                     })
-                    .setNegativeButton("No", (dialog, which) ->{
+                    .setNegativeButton("No", (dialog, which) -> {
                         //Ignore
                     })
                     .create()
@@ -107,9 +100,9 @@ public class MainActivity extends AppCompatActivity {
         super.onBackPressed();
         String name = getSupportFragmentManager().getBackStackEntryAt(getSupportFragmentManager().getBackStackEntryCount() - 1).getName();
         getSupportFragmentManager().popBackStack();
-        if(name == null)
+        if (name == null)
             return;
-        switch (name){
+        switch (name) {
             case "social":
                 navBar.selectTabAt(0, true);
                 break;

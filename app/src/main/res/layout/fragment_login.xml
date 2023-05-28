@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     android:background="@color/main_color">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -43,7 +42,7 @@
             app:layout_constraintTop_toBottomOf="@+id/profile_username">
 
             <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/login_email"
+                android:id="@+id/setup_code"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:drawableStart="@drawable/ic_person"
@@ -87,10 +86,10 @@
             android:background="@drawable/btn_main"
             app:layout_constraintEnd_toEndOf="@+id/textInputLayout3"
             app:layout_constraintStart_toStartOf="@+id/textInputLayout3"
-            app:layout_constraintTop_toBottomOf="@+id/login_password_link" />
+            app:layout_constraintTop_toBottomOf="@+id/setup_code_generate" />
 
         <TextView
-            android:id="@+id/login_password_link"
+            android:id="@+id/setup_code_generate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"

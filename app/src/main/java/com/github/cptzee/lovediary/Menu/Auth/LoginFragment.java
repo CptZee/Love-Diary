@@ -11,11 +11,7 @@ import androidx.fragment.app.Fragment;
 
 import com.github.cptzee.lovediary.MainActivity;
 import com.github.cptzee.lovediary.R;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.database.DatabaseReference;
 
 public class LoginFragment extends Fragment {
     public LoginFragment() {
@@ -26,7 +22,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        EditText email = view.findViewById(R.id.login_email);
+        EditText email = view.findViewById(R.id.setup_code);
         EditText password = view.findViewById(R.id.login_password);
 
         authentication = FirebaseAuth.getInstance();
@@ -48,7 +44,7 @@ public class LoginFragment extends Fragment {
                     .addToBackStack("login")
                     .commit()
         );
-        view.findViewById(R.id.login_password_link).setOnClickListener(v->
+        view.findViewById(R.id.setup_code_generate).setOnClickListener(v->
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.auth_container, new ForgetPasswordFragment())
                         .addToBackStack("login")

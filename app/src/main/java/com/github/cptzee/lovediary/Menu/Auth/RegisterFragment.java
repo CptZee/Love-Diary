@@ -13,6 +13,7 @@ import androidx.fragment.app.Fragment;
 import com.github.cptzee.lovediary.R;
 import com.github.cptzee.lovediary.Utils.EmailValidator;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
@@ -82,9 +83,9 @@ public class RegisterFragment extends Fragment {
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
                         Log.d("UserManager", "Successfully created a user with the email of " + registerEmail.getText().toString());
-                        userReference = userReference.child(authentication.getUid());
-                        userReference.child("username").setValue(registerUsername.getText().toString());
-                        userReference.child("email").setValue(registerEmail.getText().toString());
+                        authentication.getCurrentUser().updateProfile(new UserProfileChangeRequest.Builder()
+                                .setDisplayName(registerUsername.getText().toString())
+                                .build());
                         getActivity().onBackPressed();
                     } else {
                         Log.w("UserManager", "Failed to create the user.", task.getException());
