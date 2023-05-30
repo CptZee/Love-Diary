@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
                 .replace(R.id.activity_container, new GreetingFragment())
                 .commit();
 
+        navBar.selectTabAt(1, false);
         navBar.setOnTabSelectListener(new AnimatedBottomBar.OnTabSelectListener() {
             @Override
             public void onTabSelected(int i, @Nullable AnimatedBottomBar.Tab tab, int i1, @NonNull AnimatedBottomBar.Tab tab1) {
