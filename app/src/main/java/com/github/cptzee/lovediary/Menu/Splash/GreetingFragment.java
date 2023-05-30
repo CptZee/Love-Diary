@@ -12,6 +12,7 @@ import androidx.fragment.app.FragmentManager;
 
 import com.github.cptzee.lovediary.Data.User.User;
 import com.github.cptzee.lovediary.Manager.SessionManager;
+import com.github.cptzee.lovediary.Menu.MainFragment;
 import com.github.cptzee.lovediary.Menu.Setup.PartnerCodeFragment;
 import com.github.cptzee.lovediary.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -39,7 +40,6 @@ public class GreetingFragment extends Fragment {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 greetings.setText("Hello there, " + snapshot.getValue(String.class));
-                Snackbar.make(view, "Connected to the servers", Snackbar.LENGTH_SHORT).show();
                 endGreeting();
             }
 
@@ -78,14 +78,11 @@ public class GreetingFragment extends Fragment {
                         }
                     });
 
-                    getView().postDelayed(() -> {
-                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        Fragment fragment = fragmentManager.findFragmentById(R.id.activity_container);
-
-                        if (fragment != null) {
-                            fragmentManager.beginTransaction().remove(fragment).commit();
-                        }
-                    }, 3000);
+                    getView().postDelayed(() ->
+                        getParentFragmentManager().beginTransaction()
+                                .replace(R.id.activity_container, new MainFragment())
+                                .commit()
+                    , 3000);
                 }
             }
 

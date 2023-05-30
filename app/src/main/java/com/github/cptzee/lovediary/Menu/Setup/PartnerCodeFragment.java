@@ -13,6 +13,7 @@ import androidx.fragment.app.FragmentManager;
 import com.github.cptzee.lovediary.Data.User.Partner;
 import com.github.cptzee.lovediary.Data.User.User;
 import com.github.cptzee.lovediary.Manager.SessionManager;
+import com.github.cptzee.lovediary.Menu.MainFragment;
 import com.github.cptzee.lovediary.R;
 import com.github.cptzee.lovediary.Utils.CodeGenerator;
 import com.google.android.material.snackbar.Snackbar;
@@ -95,12 +96,9 @@ public class PartnerCodeFragment extends Fragment {
         });
         getView().postDelayed(() -> {
             Snackbar.make(getView(), "Successfully set the code!", Snackbar.LENGTH_SHORT).show();
-            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-            Fragment fragment = fragmentManager.findFragmentById(R.id.activity_container);
-
-            if (fragment != null) {
-                fragmentManager.beginTransaction().remove(fragment).commit();
-            }
+            getParentFragmentManager().beginTransaction()
+                    .replace(R.id.activity_container, new MainFragment())
+                    .commit();
         }, 3000);
     }
 }
