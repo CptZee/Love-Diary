@@ -1,4 +1,4 @@
-package com.github.cptzee.lovediary.Data;
+package com.github.cptzee.lovediary.Data.User;
 
 public class User {
     private String uuid;

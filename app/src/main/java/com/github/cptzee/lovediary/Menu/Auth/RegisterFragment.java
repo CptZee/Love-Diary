@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 
 import com.github.cptzee.lovediary.R;
 import com.github.cptzee.lovediary.Utils.EmailValidator;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.database.DatabaseReference;
@@ -86,11 +87,13 @@ public class RegisterFragment extends Fragment {
                         authentication.getCurrentUser().updateProfile(new UserProfileChangeRequest.Builder()
                                 .setDisplayName(registerUsername.getText().toString())
                                 .build());
+                        Snackbar.make(getView(), "Account registration complete! Please login!",
+                                Snackbar.LENGTH_SHORT).show();
                         getActivity().onBackPressed();
                     } else {
                         Log.w("UserManager", "Failed to create the user.", task.getException());
-                        Toast.makeText(getActivity(), "Cannot access the authentication servers at the moment!",
-                                Toast.LENGTH_SHORT).show();
+                        Snackbar.make(getView(), "Cannot access the authentication servers at the moment!",
+                                Snackbar.LENGTH_SHORT).show();
                     }
                 });
     }
