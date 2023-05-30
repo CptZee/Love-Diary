@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.github.cptzee.lovediary.Data.User.Partner;
+import com.github.cptzee.lovediary.Data.User.User;
+import com.github.cptzee.lovediary.Manager.SessionManager;
 import com.github.cptzee.lovediary.R;
 import com.github.cptzee.lovediary.Utils.CodeGenerator;
 import com.google.android.material.snackbar.Snackbar;
@@ -78,8 +80,21 @@ public class PartnerCodeFragment extends Fragment {
     }
 
     private void endCodeSetup() {
+        //Set the current user
+        SessionManager manager = SessionManager.getInstance();
+        DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                manager.setCurrentUser(snapshot.getValue(User.class));
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
         getView().postDelayed(() -> {
-            Snackbar.make(getView(), "Successfuly set the code!", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(getView(), "Successfully set the code!", Snackbar.LENGTH_SHORT).show();
             FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
             Fragment fragment = fragmentManager.findFragmentById(R.id.activity_container);
 

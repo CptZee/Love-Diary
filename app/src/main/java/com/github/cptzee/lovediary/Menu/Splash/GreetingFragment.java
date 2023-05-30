@@ -10,6 +10,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
+import com.github.cptzee.lovediary.Data.User.User;
+import com.github.cptzee.lovediary.Manager.SessionManager;
 import com.github.cptzee.lovediary.Menu.Setup.PartnerCodeFragment;
 import com.github.cptzee.lovediary.R;
 import com.google.android.material.snackbar.Snackbar;
@@ -61,7 +63,21 @@ public class GreetingFragment extends Fragment {
                     getActivity().getSupportFragmentManager().beginTransaction()
                             .replace(R.id.activity_container, new PartnerCodeFragment())
                             .commit();
-                else
+                else {
+                    //Set the current user
+                    SessionManager manager = SessionManager.getInstance();
+                    DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
+                    userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            manager.setCurrentUser(snapshot.getValue(User.class));
+                        }
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
                     getView().postDelayed(() -> {
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         Fragment fragment = fragmentManager.findFragmentById(R.id.activity_container);
@@ -70,6 +86,7 @@ public class GreetingFragment extends Fragment {
                             fragmentManager.beginTransaction().remove(fragment).commit();
                         }
                     }, 3000);
+                }
             }
 
             @Override
