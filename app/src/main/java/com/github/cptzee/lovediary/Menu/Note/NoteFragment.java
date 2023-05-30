@@ -39,6 +39,7 @@ public class NoteFragment extends Fragment {
         view.findViewById(R.id.note_button).setOnClickListener(v->
                 getActivity().getSupportFragmentManager().beginTransaction()
                         .replace(R.id.activity_container, new NoteEditorFragment())
+                        .addToBackStack("note")
                         .commit()
                 );
         notes.setLayoutManager(new LinearLayoutManager(getContext()));
