@@ -1,12 +1,30 @@
 package com.github.cptzee.lovediary.Data.Note;
 
 public class Note {
+    private String id;
     private String owner;
     private String partner;
     private String title;
     private String body;
     private boolean shared;
     private long dateUpdated;
+    private boolean archived;
+
+    public boolean isArchived() {
+        return archived;
+    }
+
+    public void setArchived(boolean archived) {
+        this.archived = archived;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
 
     public String getOwner() {
         return owner;

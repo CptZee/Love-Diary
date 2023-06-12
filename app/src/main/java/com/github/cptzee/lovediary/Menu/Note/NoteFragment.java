@@ -37,7 +37,7 @@ public class NoteFragment extends Fragment {
         TextView indicator = view.findViewById(R.id.note_indicator);
         DatabaseReference notesRef = FirebaseDatabase.getInstance().getReference("Notes");
         view.findViewById(R.id.note_button).setOnClickListener(v->
-                getActivity().getSupportFragmentManager().beginTransaction()
+                getParentFragmentManager().beginTransaction()
                         .replace(R.id.activity_container, new NoteEditorFragment())
                         .addToBackStack("note")
                         .commit()
@@ -51,6 +51,8 @@ public class NoteFragment extends Fragment {
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                     Note note = childSnapshot.getValue(Note.class);
                     Log.d("NoteHelper", "Connected to firebase... running checks.");
+                    if(note.isArchived())
+                        continue;
                     if(note.getOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                         Log.d("NoteHelper", "A note was found and added into the list.");
                         noteList.add(note);
@@ -61,13 +63,13 @@ public class NoteFragment extends Fragment {
                         noteList.add(note);
                 }
                 Log.d("NoteHelper", "Checked all the notes, showing a list of " + noteList.size());
+                notes.setAdapter(new NoteAdapter(noteList, NoteFragment.this));
                 if(noteList.size() == 0){
                     indicator.setText("No notes found, create one now!");
                     indicator.setVisibility(View.VISIBLE);
                     return;
                 }
                 indicator.setVisibility(View.INVISIBLE);
-                notes.setAdapter(new NoteAdapter(noteList));
             }
 
             @Override

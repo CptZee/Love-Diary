@@ -6,15 +6,22 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.cptzee.lovediary.Menu.Note.NoteEditorFragment;
+import com.github.cptzee.lovediary.Menu.Note.NoteViewFragment;
 import com.github.cptzee.lovediary.R;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
 public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
     private List<Note> localDataSet;
+    private Fragment fragment;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView title, shared;
@@ -51,8 +58,9 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
 
     }
 
-    public NoteAdapter(List<Note> dataSet) {
+    public NoteAdapter(List<Note> dataSet, Fragment fragment) {
         localDataSet = dataSet;
+        this.fragment = fragment;
     }
 
     @Override
@@ -66,6 +74,35 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     public void onBindViewHolder(NoteAdapter.ViewHolder viewHolder, final int position) {
         viewHolder.getTitle().setText(localDataSet.get(position).getTitle());
         viewHolder.getShared().setText("Shared: " + localDataSet.get(position).isShared());
+
+        Note note = localDataSet.get(position);
+        viewHolder.getViewBtn().setOnClickListener(v->
+            fragment.getParentFragmentManager().beginTransaction()
+                    .replace(R.id.activity_container, new NoteViewFragment(localDataSet.get(position)))
+                    .addToBackStack("note")
+                    .commit()
+        );
+        viewHolder.getShare().setOnClickListener(v->{
+            if(note.isShared())
+                note.setShared(false);
+            else
+                note.setShared(true);
+            FirebaseDatabase.getInstance().getReference("Notes")
+                    .child(note.getId()).child("shared")
+                    .setValue(note.isShared());
+            Snackbar.make(fragment.getView(), "Successfully changed the note's privacy", Snackbar.LENGTH_SHORT).show();
+        });
+        viewHolder.getDelete().setOnClickListener(v->{
+            FirebaseDatabase.getInstance().getReference("Notes")
+                    .child(note.getId()).child("archived")
+                    .setValue(true);
+            Snackbar.make(fragment.getView(), "Successfully removed the note!", Snackbar.LENGTH_SHORT)
+                    .setAction("Undo", ignored ->
+                            FirebaseDatabase.getInstance().getReference("Notes")
+                                    .child(note.getId()).child("archived")
+                                    .setValue(false)
+                    ).show();
+        });
     }
 
     @Override
