@@ -38,20 +38,31 @@
             app:layout_constraintStart_toStartOf="@+id/post_name"
             app:layout_constraintTop_toBottomOf="@+id/post_name" />
 
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            android:text="COMMENTS"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/post_message"
+            app:layout_constraintTop_toBottomOf="@+id/post_message" />
+
         <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/post_comments"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="8dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/post_message" />
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
         <LinearLayout
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:padding="8dp"
+            android:padding="0dp"
             app:layout_constraintEnd_toEndOf="@+id/post_comments"
             app:layout_constraintStart_toStartOf="@+id/post_comments"
             app:layout_constraintTop_toBottomOf="@+id/post_comments">

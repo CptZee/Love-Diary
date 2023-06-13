@@ -57,7 +57,7 @@ public class SocialFragment extends Fragment {
                 List list = new ArrayList();
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                     Post post = childSnapshot.getValue(Post.class);
-                    Log.d("PostHelper", "Post parent is " + post.getParent());
+                    post.setID(childSnapshot.getKey());
                     if(!post.getParent().isEmpty())
                         continue;
                     post.setID(childSnapshot.getKey());
@@ -95,13 +95,12 @@ public class SocialFragment extends Fragment {
 
     private void savePost(){
         Post post = new Post();
-        post.setID(String.valueOf(UUID.randomUUID()));
         post.setOwner(FirebaseAuth.getInstance().getCurrentUser().getUid());
         post.setDatePosted(Calendar.getInstance().getTimeInMillis());
         post.setMessage(newPost.getText().toString());
         post.setParent("");
 
-        DatabaseReference newPostRef = postRef.child(post.getID());
+        DatabaseReference newPostRef = postRef.child(String.valueOf(UUID.randomUUID()));
         newPostRef.setValue(post);
 
         Snackbar.make(getView(), "Post successfully created!", Snackbar.LENGTH_SHORT)
