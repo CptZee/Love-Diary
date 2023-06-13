@@ -35,6 +35,8 @@ public class GalleryFragment extends Fragment {
     private static final int REQUEST_IMAGE_PICK = 2;
     private RecyclerView gallery;
     private TextView indicator;
+    private FirebaseStorage storage = FirebaseStorage.getInstance();
+    private StorageReference folderRef = storage.getReference().child("Pictures").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
@@ -43,13 +45,15 @@ public class GalleryFragment extends Fragment {
         indicator = view.findViewById(R.id.gallery_indicator);
         indicator.setText("Loading...");
 
-        FirebaseStorage storage = FirebaseStorage.getInstance();
-        StorageReference folderRef = storage.getReference().child("Pictures").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         Log.d("GalleryHelper", "Current user is: " + FirebaseAuth.getInstance().getCurrentUser().getUid());
 
         gallery = view.findViewById(R.id.gallery_list);
         gallery.setLayoutManager(new GridLayoutManager(getContext(), 2));
+        loadGallery();
+    }
+
+    private void loadGallery(){
         folderRef.listAll()
                 .addOnSuccessListener(listResult -> {
                     List<StorageReference> fileList = new ArrayList<>();
@@ -103,6 +107,7 @@ public class GalleryFragment extends Fragment {
                 Toast.makeText(getContext(), "Image uploaded successfully", Toast.LENGTH_SHORT).show();
             else
                 Toast.makeText(getContext(), "Image upload failed", Toast.LENGTH_SHORT).show();
+            loadGallery();
         });
     }
 }
