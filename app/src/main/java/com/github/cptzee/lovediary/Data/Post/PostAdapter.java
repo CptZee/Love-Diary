@@ -94,7 +94,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                         viewHolder.getName().setText("User");
                     }
                 });
-        viewHolder.getDate().setText(new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date(post.getDatePosted() * 1000)));
+        viewHolder.getDate().setText(new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date(post.getDatePosted())));
         viewHolder.getMessage().setText(post.getMessage());
     }
 

@@ -6,7 +6,6 @@ public class Post {
     private String message;
     private String owner;
     private String parent;
-    private String type;
 
     public String getID() {
         return ID;
@@ -48,11 +47,4 @@ public class Post {
         this.parent = parent;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }

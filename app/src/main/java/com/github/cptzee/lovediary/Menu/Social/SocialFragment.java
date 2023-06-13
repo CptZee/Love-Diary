@@ -1,9 +1,12 @@
 package com.github.cptzee.lovediary.Menu.Social;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -11,11 +14,10 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.cptzee.lovediary.Data.Note.Note;
 import com.github.cptzee.lovediary.Data.Post.Post;
 import com.github.cptzee.lovediary.Data.Post.PostAdapter;
-import com.github.cptzee.lovediary.Manager.SessionManager;
 import com.github.cptzee.lovediary.R;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -24,7 +26,9 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.UUID;
 
 public class SocialFragment extends Fragment {
     public SocialFragment() {
@@ -33,6 +37,7 @@ public class SocialFragment extends Fragment {
 
     private RecyclerView posts;
     private TextView indicator;
+    private EditText newPost;
     private final DatabaseReference postRef = FirebaseDatabase.getInstance().getReference("Posts");
 
     @Override
@@ -40,6 +45,9 @@ public class SocialFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         posts = view.findViewById(R.id.social_list);
         indicator = view.findViewById(R.id.social_indicator);
+        newPost = view.findViewById(R.id.social_new);
+
+        indicator.setText("Loading");
 
         posts.setLayoutManager(new LinearLayoutManager(getContext()));
 
@@ -49,9 +57,8 @@ public class SocialFragment extends Fragment {
                 List list = new ArrayList();
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                     Post post = childSnapshot.getValue(Post.class);
-                    Log.d("PostHelper", "Connected to firebase... running checks on " + childSnapshot.getKey());
-                    Log.d("PostHelper", "Parent is " + post.getParent());
-                    if(post.getParent().isEmpty())
+                    Log.d("PostHelper", "Post parent is " + post.getParent());
+                    if(!post.getParent().isEmpty())
                         continue;
                     post.setID(childSnapshot.getKey());
                     list.add(post);
@@ -71,7 +78,37 @@ public class SocialFragment extends Fragment {
             }
         });
 
-
-
+        view.findViewById(R.id.social_button).setOnClickListener(v->{
+            if(newPost.getText().toString().isEmpty()) {
+                new AlertDialog.Builder(getContext())
+                        .setTitle("Error")
+                        .setMessage("Please write something to post!")
+                        .setPositiveButton("Okay", (ignored, ignored2) -> {
+                        })
+                        .create()
+                        .show();
+                return;
+            }
+            savePost();
+        });
     }
+
+    private void savePost(){
+        Post post = new Post();
+        post.setID(String.valueOf(UUID.randomUUID()));
+        post.setOwner(FirebaseAuth.getInstance().getCurrentUser().getUid());
+        post.setDatePosted(Calendar.getInstance().getTimeInMillis());
+        post.setMessage(newPost.getText().toString());
+        post.setParent("");
+
+        DatabaseReference newPostRef = postRef.child(post.getID());
+        newPostRef.setValue(post);
+
+        Snackbar.make(getView(), "Post successfully created!", Snackbar.LENGTH_SHORT)
+                .setAction("Undo", v->{
+                    newPostRef.removeValue();
+                    Toast.makeText(getView().getContext(), "Post deleted!", Toast.LENGTH_SHORT).show();
+                }).show();
+    }
+
 }
