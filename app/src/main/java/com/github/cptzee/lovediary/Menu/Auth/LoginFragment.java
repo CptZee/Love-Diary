@@ -11,6 +11,8 @@ import androidx.fragment.app.Fragment;
 
 import com.github.cptzee.lovediary.MainActivity;
 import com.github.cptzee.lovediary.R;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 
 public class LoginFragment extends Fragment {
@@ -30,6 +32,18 @@ public class LoginFragment extends Fragment {
             getActivity().getSupportFragmentManager().popBackStackImmediate();
             authentication.signInWithEmailAndPassword(email.getText().toString(), password.getText().toString()).addOnCompleteListener(task -> {
                 if(task.isSuccessful()){
+                    if(!authentication.getCurrentUser().isEmailVerified()){
+                        Snackbar.make(getView(), "User is not verified yet! Check your email for the verification link", Snackbar.LENGTH_SHORT)
+                                .setAction("Resend", a->{
+                                    authentication.sendSignInLinkToEmail(email.getText().toString(), ActionCodeSettings.newBuilder().build())
+                                            .addOnSuccessListener(s -> Snackbar.make(getView(), "Verification email resent! Please check your inbox.",
+                                                    Snackbar.LENGTH_SHORT).show()
+                                            ).addOnFailureListener(f -> Snackbar.make(getView(), "Cannot send the verification email, please try again later!",
+                                                    Snackbar.LENGTH_SHORT).show());
+                                }).show();
+                        email.setError("Unverified account");
+                        return;
+                    }
                     startActivity(new Intent(getContext(), MainActivity.class));
                     getActivity().finish();
                 }else {

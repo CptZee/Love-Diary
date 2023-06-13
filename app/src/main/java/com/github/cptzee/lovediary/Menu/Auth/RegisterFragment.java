@@ -83,18 +83,24 @@ public class RegisterFragment extends Fragment {
         authentication.createUserWithEmailAndPassword(registerEmail.getText().toString(), registerPassword.getText().toString())
                 .addOnCompleteListener(getActivity(), task -> {
                     if (task.isSuccessful()) {
+                        Snackbar.make(getView(), "Registering account, please wait...",
+                                Snackbar.LENGTH_SHORT).show();
                         Log.d("UserManager", "Successfully created a user with the email of " + registerEmail.getText().toString());
                         authentication.getCurrentUser().updateProfile(new UserProfileChangeRequest.Builder()
                                 .setDisplayName(registerUsername.getText().toString())
                                 .build());
-                        Snackbar.make(getView(), "Account registration complete! Please login!",
-                                Snackbar.LENGTH_SHORT).show();
-                        getActivity().onBackPressed();
+                        authentication.getCurrentUser().sendEmailVerification().addOnSuccessListener(s->{
+                            Snackbar.make(getView(), "Account needs verification, please check your email!!",
+                                    Snackbar.LENGTH_SHORT).show();
+                            getActivity().onBackPressed();
+                        }).addOnFailureListener(f-> Snackbar.make(getView(), "Cannot send email verification at the moment, please try again later!",
+                                Snackbar.LENGTH_SHORT).show());
                     } else {
                         Log.w("UserManager", "Failed to create the user.", task.getException());
                         Snackbar.make(getView(), "Cannot access the authentication servers at the moment!",
                                 Snackbar.LENGTH_SHORT).show();
                     }
+                    authentication.signOut();
                 });
     }
 }
