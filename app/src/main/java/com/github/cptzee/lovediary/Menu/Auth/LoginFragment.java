@@ -35,13 +35,15 @@ public class LoginFragment extends Fragment {
                     if(!authentication.getCurrentUser().isEmailVerified()){
                         Snackbar.make(getView(), "User is not verified yet! Check your email for the verification link", Snackbar.LENGTH_SHORT)
                                 .setAction("Resend", a->{
-                                    authentication.sendSignInLinkToEmail(email.getText().toString(), ActionCodeSettings.newBuilder().build())
+                                    authentication.getCurrentUser().sendEmailVerification()
                                             .addOnSuccessListener(s -> Snackbar.make(getView(), "Verification email resent! Please check your inbox.",
                                                     Snackbar.LENGTH_SHORT).show()
                                             ).addOnFailureListener(f -> Snackbar.make(getView(), "Cannot send the verification email, please try again later!",
                                                     Snackbar.LENGTH_SHORT).show());
                                 }).show();
                         email.setError("Unverified account");
+                        password.setError("");
+                        authentication.signOut();
                         return;
                     }
                     startActivity(new Intent(getContext(), MainActivity.class));
