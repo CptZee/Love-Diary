@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.github.cptzee.lovediary.Menu.Note.NoteViewFragment;
 import com.github.cptzee.lovediary.R;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
@@ -80,7 +81,12 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
                     .addToBackStack("note")
                     .commit()
         );
+
         viewHolder.getShare().setOnClickListener(v->{
+            if(!note.getOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                Snackbar.make(fragment.getView(), "Unable to set the privacy of the note: \"You don't own this!\"", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
             if(note.isShared())
                 note.setShared(false);
             else
@@ -91,6 +97,10 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
             Snackbar.make(fragment.getView(), "Successfully changed the note's privacy", Snackbar.LENGTH_SHORT).show();
         });
         viewHolder.getDelete().setOnClickListener(v->{
+            if(!note.getOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())){
+                Snackbar.make(fragment.getView(), "Unable to delete the note: \"You don't own this!\"", Snackbar.LENGTH_SHORT).show();
+                return;
+            }
             FirebaseDatabase.getInstance().getReference("Notes")
                     .child(note.getId()).child("archived")
                     .setValue(true);
