@@ -66,7 +66,7 @@ public class SocialFragment extends Fragment {
                 }
                 posts.setAdapter(new PostAdapter(list, PostType.POST));
                 if(list.size() == 0){
-                    indicator.setText("No notes found, create one now!");
+                    indicator.setText("No posts found, create one now!");
                     indicator.setVisibility(View.VISIBLE);
                     return;
                 }

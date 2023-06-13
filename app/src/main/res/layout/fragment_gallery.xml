@@ -6,7 +6,7 @@
     android:background="@color/main_color">
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/note_list"
+        android:id="@+id/gallery_list"
         android:layout_width="0dp"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/gallery_new"
@@ -16,14 +16,14 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
-        android:id="@+id/note_indicator"
+        android:id="@+id/gallery_indicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="No pictures found! Add your first photo!"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/note_list" />
+        app:layout_constraintTop_toTopOf="@+id/gallery_list" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/gallery_new"

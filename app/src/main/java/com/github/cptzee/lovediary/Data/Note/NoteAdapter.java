@@ -9,11 +9,9 @@ import android.widget.TextView;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.github.cptzee.lovediary.Menu.Note.NoteEditorFragment;
 import com.github.cptzee.lovediary.Menu.Note.NoteViewFragment;
 import com.github.cptzee.lovediary.R;
 import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
@@ -66,7 +64,7 @@ public class NoteAdapter extends RecyclerView.Adapter<NoteAdapter.ViewHolder> {
     @Override
     public NoteAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
         View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.items_note, viewGroup, false);
+                .inflate(R.layout.item_note, viewGroup, false);
         return new NoteAdapter.ViewHolder(view);
     }
 
