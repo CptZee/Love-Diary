@@ -71,12 +71,5 @@ public class ProfileFragment extends Fragment {
                     .addToBackStack(null)
                     .commit()
         );
-
-        view.findViewById(R.id.profile_preference_button).setOnClickListener(v->
-            getActivity().getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.activity_container, new PreferenceFragment())
-                    .addToBackStack(null)
-                    .commit()
-        );
     }
 }

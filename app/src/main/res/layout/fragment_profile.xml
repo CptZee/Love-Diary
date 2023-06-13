@@ -63,18 +63,6 @@
             app:layout_constraintTop_toBottomOf="@+id/profile_code" />
 
         <androidx.appcompat.widget.AppCompatButton
-            android:id="@+id/profile_preference_button"
-            android:layout_width="220dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            android:background="@drawable/btn_secondary"
-            android:text="Preference Settings"
-            android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/profile_account_button"
-            app:layout_constraintStart_toStartOf="@+id/profile_account_button"
-            app:layout_constraintTop_toBottomOf="@+id/profile_account_button" />
-
-        <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/profile_logout_button"
             android:layout_width="220dp"
             android:layout_height="wrap_content"
@@ -82,9 +70,9 @@
             android:background="@drawable/btn_secondary"
             android:text="Logout"
             android:textColor="@color/white"
-            app:layout_constraintEnd_toEndOf="@+id/profile_preference_button"
-            app:layout_constraintStart_toStartOf="@+id/profile_preference_button"
-            app:layout_constraintTop_toBottomOf="@+id/profile_preference_button" />
+            app:layout_constraintEnd_toEndOf="@+id/profile_account_button"
+            app:layout_constraintStart_toStartOf="@+id/profile_account_button"
+            app:layout_constraintTop_toBottomOf="@+id/profile_account_button" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
