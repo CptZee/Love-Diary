@@ -66,10 +66,9 @@ public class MessageFragment extends Fragment {
                 Collections.sort(list, (Comparator<Message>) (m1, m2) -> Long.compare(m1.getSentDate(), m2.getSentDate()));
 
                 messages.setAdapter(new MessageAdapter(list));
-                if(list.size() > 0) {
+                if(list.size() > 0)
                     indicator.setVisibility(View.INVISIBLE);
-                    indicator.setText("No messages yet, start a conversation now!");
-                }
+                indicator.setText("No messages yet, start a conversation now!");
             }
 
             @Override
