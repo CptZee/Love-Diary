@@ -68,12 +68,14 @@ public class ProfileFragment extends Fragment {
         view.findViewById(R.id.profile_account_button).setOnClickListener(v->
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.activity_container, new AccountFragment())
+                    .addToBackStack(null)
                     .commit()
         );
 
         view.findViewById(R.id.profile_preference_button).setOnClickListener(v->
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.activity_container, new PreferenceFragment())
+                    .addToBackStack(null)
                     .commit()
         );
     }

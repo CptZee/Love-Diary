@@ -36,7 +36,7 @@ public class AuthActivity extends AppCompatActivity {
         //Set the current user
         SessionManager manager = SessionManager.getInstance();
         DatabaseReference userRef = FirebaseDatabase.getInstance().getReference("Users").child(currentUser.getUid());
-        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
+        userRef.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 manager.setCurrentUser(snapshot.getValue(User.class));
