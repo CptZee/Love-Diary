@@ -2,6 +2,7 @@ package com.github.cptzee.lovediary.Menu.Auth;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 
@@ -38,12 +39,14 @@ public class LoginFragment extends Fragment {
                                     authentication.getCurrentUser().sendEmailVerification()
                                             .addOnSuccessListener(s -> Snackbar.make(getView(), "Verification email resent! Please check your inbox.",
                                                     Snackbar.LENGTH_SHORT).show()
-                                            ).addOnFailureListener(f -> Snackbar.make(getView(), "Cannot send the verification email, please try again later!",
-                                                    Snackbar.LENGTH_SHORT).show());
+                                            ).addOnFailureListener(f -> {
+                                                Log.e("AuthHelper", f.getMessage());
+                                                Snackbar.make(getView(), f.getMessage(),
+                                                        Snackbar.LENGTH_SHORT).show();
+                                            });
                                 }).show();
                         email.setError("Unverified account");
                         password.setError("");
-                        authentication.signOut();
                         return;
                     }
                     startActivity(new Intent(getContext(), MainActivity.class));
@@ -66,5 +69,14 @@ public class LoginFragment extends Fragment {
                         .addToBackStack("login")
                         .commit()
         );
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        if(authentication.getCurrentUser() == null)
+            return;
+        if(!authentication.getCurrentUser().isEmailVerified())
+            authentication.signOut();
     }
 }
