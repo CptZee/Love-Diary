@@ -34,6 +34,7 @@ import java.util.UUID;
 public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     private List<Post> localDataSet;
+    private PostType type;
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         private TextView name, date, message;
@@ -77,14 +78,20 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
 
     }
 
-    public PostAdapter(List<Post> dataSet) {
+    public PostAdapter(List<Post> dataSet, PostType type) {
         localDataSet = dataSet;
+        this.type = type;
     }
 
     @Override
     public PostAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int viewType) {
-        View view = LayoutInflater.from(viewGroup.getContext())
-                .inflate(R.layout.item_post, viewGroup, false);
+        View view = null;
+        if (type.equals(PostType.POST))
+            view = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.item_post, viewGroup, false);
+        else
+            view = LayoutInflater.from(viewGroup.getContext())
+                    .inflate(R.layout.item_reply, viewGroup, false);
         return new PostAdapter.ViewHolder(view);
     }
 
@@ -108,8 +115,11 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
         viewHolder.getDate().setText(new SimpleDateFormat("dd/MM/yyyy", Locale.getDefault()).format(new Date(post.getDatePosted())));
         viewHolder.getMessage().setText(post.getMessage());
 
-        viewHolder.getCommentAdd().setOnClickListener(v->{
-            if(viewHolder.getCommentText().getText().toString().isEmpty()) {
+        if(type.equals(PostType.COMMENT))
+            return;
+
+        viewHolder.getCommentAdd().setOnClickListener(v -> {
+            if (viewHolder.getCommentText().getText().toString().isEmpty()) {
                 new AlertDialog.Builder(viewHolder.getCommentAdd().getContext())
                         .setTitle("Error")
                         .setMessage("Please write something to comment!")
@@ -131,7 +141,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
             newPostRef.setValue(comment);
 
             Snackbar.make(viewHolder.getCommentAdd(), "Comment successfully created!", Snackbar.LENGTH_SHORT)
-                    .setAction("Undo", x->{
+                    .setAction("Undo", x -> {
                         newPostRef.removeValue();
                         Toast.makeText(viewHolder.getCommentAdd().getContext(), "Comment deleted!", Toast.LENGTH_SHORT).show();
                     }).show();
@@ -149,12 +159,12 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                     Post comment = childSnapshot.getValue(Post.class);
                     Log.d("PostHelper", "Post parent is " + post.getParent());
-                    if(!comment.getParent().equals(post.getID()))
+                    if (!comment.getParent().equals(post.getID()))
                         continue;
                     comment.setID(childSnapshot.getKey());
                     list.add(comment);
                 }
-                comments.setAdapter(new PostAdapter(list));
+                comments.setAdapter(new PostAdapter(list, PostType.COMMENT));
             }
 
             @Override

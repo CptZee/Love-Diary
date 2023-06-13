@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.github.cptzee.lovediary.Data.Post.Post;
 import com.github.cptzee.lovediary.Data.Post.PostAdapter;
+import com.github.cptzee.lovediary.Data.Post.PostType;
 import com.github.cptzee.lovediary.R;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
@@ -63,7 +64,7 @@ public class SocialFragment extends Fragment {
                     post.setID(childSnapshot.getKey());
                     list.add(post);
                 }
-                posts.setAdapter(new PostAdapter(list));
+                posts.setAdapter(new PostAdapter(list, PostType.POST));
                 if(list.size() == 0){
                     indicator.setText("No notes found, create one now!");
                     indicator.setVisibility(View.VISIBLE);
