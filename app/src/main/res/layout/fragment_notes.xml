@@ -27,7 +27,7 @@
                 android:id="@+id/note_search"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/container_main_rounded"
+                android:background="@drawable/container_main_rounded_2"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="5dp"
                 android:hint="@string/search"

@@ -28,7 +28,7 @@
                 android:id="@+id/social_new"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:background="@drawable/container_main_rounded"
+                android:background="@drawable/container_main_rounded_2"
                 android:hint="New Post"
                 android:drawableStart="@drawable/ic_post"
                 android:drawablePadding="5dp"
