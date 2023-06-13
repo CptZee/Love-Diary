@@ -5,6 +5,15 @@ public class Message {
     private String sender;
     private String message;
     private String partnerCode;
+    private long sentDate;
+
+    public long getSentDate() {
+        return sentDate;
+    }
+
+    public void setSentDate(long sentDate) {
+        this.sentDate = sentDate;
+    }
 
     public String getMessage() {
         return message;
