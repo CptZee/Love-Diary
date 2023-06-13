@@ -28,6 +28,8 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -64,6 +66,8 @@ public class SocialFragment extends Fragment {
                     post.setID(childSnapshot.getKey());
                     list.add(post);
                 }
+                Collections.sort(list, (Comparator<Post>) (m1, m2) -> Long.compare(m2.getDatePosted(), m1.getDatePosted()));
+
                 posts.setAdapter(new PostAdapter(list, PostType.POST));
                 if(list.size() == 0){
                     indicator.setText("No posts found, create one now!");

@@ -11,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.github.cptzee.lovediary.Data.Message.Message;
 import com.github.cptzee.lovediary.Data.Note.Note;
 import com.github.cptzee.lovediary.Data.Note.NoteAdapter;
 import com.github.cptzee.lovediary.Manager.SessionManager;
@@ -23,6 +24,8 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 public class NoteFragment extends Fragment {
@@ -63,6 +66,9 @@ public class NoteFragment extends Fragment {
                         noteList.add(note);
                 }
                 Log.d("NoteHelper", "Checked all the notes, showing a list of " + noteList.size());
+
+                Collections.sort(noteList, (Comparator<Note>) (m1, m2) -> Long.compare(m2.getDateUpdated(), m1.getDateUpdated()));
+
                 notes.setAdapter(new NoteAdapter(noteList, NoteFragment.this));
                 if(noteList.size() == 0){
                     indicator.setText("No notes found, create one now!");

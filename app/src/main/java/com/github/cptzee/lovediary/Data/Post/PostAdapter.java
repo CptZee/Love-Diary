@@ -26,6 +26,8 @@ import com.google.firebase.database.ValueEventListener;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
@@ -164,6 +166,7 @@ public class PostAdapter extends RecyclerView.Adapter<PostAdapter.ViewHolder> {
                     comment.setID(childSnapshot.getKey());
                     list.add(comment);
                 }
+                Collections.sort(list, (Comparator<Post>) (m1, m2) -> Long.compare(m2.getDatePosted(), m1.getDatePosted()));
                 comments.setAdapter(new PostAdapter(list, PostType.COMMENT));
             }
 
