@@ -8,7 +8,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import com.github.cptzee.lovediary.Data.User.User;
 import com.github.cptzee.lovediary.Manager.SessionManager;
@@ -39,7 +38,12 @@ public class GreetingFragment extends Fragment {
         userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                greetings.setText("Hello there, " + snapshot.getValue(String.class));
+                String username = snapshot.getValue(String.class);
+                if (username == null) {
+                    endGreeting();
+                    return;
+                }
+                greetings.setText("Hello there, " + username);
                 endGreeting();
             }
 
@@ -51,7 +55,7 @@ public class GreetingFragment extends Fragment {
         });
     }
 
-    private void endGreeting(){
+    private void endGreeting() {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseUser currentUser = auth.getCurrentUser();
         String currentUserUUID = currentUser.getUid();
@@ -72,6 +76,7 @@ public class GreetingFragment extends Fragment {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             manager.setCurrentUser(snapshot.getValue(User.class));
                         }
+
                         @Override
                         public void onCancelled(@NonNull DatabaseError error) {
 
@@ -79,10 +84,10 @@ public class GreetingFragment extends Fragment {
                     });
 
                     getView().postDelayed(() ->
-                        getParentFragmentManager().beginTransaction()
-                                .replace(R.id.activity_container, new MainFragment())
-                                .commit()
-                    , 3000);
+                                    getParentFragmentManager().beginTransaction()
+                                            .replace(R.id.activity_container, new MainFragment())
+                                            .commit()
+                            , 3000);
                 }
             }
 
