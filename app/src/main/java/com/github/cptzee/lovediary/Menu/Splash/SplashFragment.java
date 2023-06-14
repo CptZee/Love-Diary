@@ -24,7 +24,7 @@ public class SplashFragment extends Fragment {
 
         textView.setText(R.string.app_name);
 
-        new Handler().postDelayed(() -> {
+        getView().postDelayed(() -> {
             getActivity().getSupportFragmentManager().beginTransaction()
                     .replace(R.id.auth_container, new LoginFragment())
                     .commit();
