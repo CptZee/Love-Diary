@@ -72,6 +72,7 @@
                 android:maxLines="1"
                 android:maxLength="16"
                 android:hint="Username"
+                android:inputType="text|textCapSentences|textAutoCorrect|textAutoComplete"
                 android:drawableStart="@drawable/ic_person"
                 android:drawablePadding="5dp"/>
         </com.google.android.material.textfield.TextInputLayout>
