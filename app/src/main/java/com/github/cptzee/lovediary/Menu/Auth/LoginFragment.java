@@ -25,7 +25,7 @@ public class LoginFragment extends Fragment {
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        EditText email = view.findViewById(R.id.setup_code);
+        EditText email = view.findViewById(R.id.login_email);
         EditText password = view.findViewById(R.id.login_password);
 
         authentication = FirebaseAuth.getInstance();
