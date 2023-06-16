@@ -1,8 +1,11 @@
 package com.github.cptzee.lovediary.Menu.Note;
 
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -33,18 +36,21 @@ public class NoteFragment extends Fragment {
         super(R.layout.fragment_notes);
     }
 
+    private EditText searchTxt;
+
     @Override
     public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         RecyclerView notes = view.findViewById(R.id.note_list);
         TextView indicator = view.findViewById(R.id.note_indicator);
+        searchTxt = view.findViewById(R.id.note_search);
         DatabaseReference notesRef = FirebaseDatabase.getInstance().getReference("Notes");
-        view.findViewById(R.id.note_button).setOnClickListener(v->
+        view.findViewById(R.id.note_button).setOnClickListener(v ->
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.activity_container, new NoteEditorFragment())
                         .addToBackStack("note")
                         .commit()
-                );
+        );
         notes.setLayoutManager(new LinearLayoutManager(getContext()));
 
         notesRef.addValueEventListener(new ValueEventListener() {
@@ -54,15 +60,16 @@ public class NoteFragment extends Fragment {
                 for (DataSnapshot childSnapshot : snapshot.getChildren()) {
                     Note note = childSnapshot.getValue(Note.class);
                     Log.d("NoteHelper", "Connected to firebase... running checks.");
-                    if(note.isArchived())
+                    if (note.isArchived())
                         continue;
-                    if(note.getOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                    if (note.getOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
                         Log.d("NoteHelper", "A note was found and added into the list.");
                         noteList.add(note);
                         continue;
-                    }if(!note.isShared())
+                    }
+                    if (!note.isShared())
                         continue;
-                    if(note.getPartner().equals(SessionManager.getInstance().getCurrentUser().getCode()))
+                    if (note.getPartner().equals(SessionManager.getInstance().getCurrentUser().getCode()))
                         noteList.add(note);
                 }
                 Log.d("NoteHelper", "Checked all the notes, showing a list of " + noteList.size());
@@ -70,7 +77,7 @@ public class NoteFragment extends Fragment {
                 Collections.sort(noteList, (Comparator<Note>) (m1, m2) -> Long.compare(m2.getDateUpdated(), m1.getDateUpdated()));
 
                 notes.setAdapter(new NoteAdapter(noteList, NoteFragment.this));
-                if(noteList.size() == 0){
+                if (noteList.size() == 0) {
                     indicator.setText("No notes found, create one now!");
                     indicator.setVisibility(View.VISIBLE);
                     return;
@@ -80,6 +87,98 @@ public class NoteFragment extends Fragment {
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+        searchTxt.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String newText = s.toString();
+                if (!newText.isEmpty()) {
+                    notesRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            List noteList = new ArrayList();
+                            for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                                Note note = childSnapshot.getValue(Note.class);
+                                if (note.isArchived())
+                                    continue;
+                                if (!note.getOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid()))
+                                    continue;
+                                if (!note.getPartner().equals(SessionManager.getInstance().getCurrentUser().getCode()) && !note.isShared())
+                                    continue;
+                                Log.d("SearchHelper", note.getTitle() + " is found!");
+                                if(note.getTitle().toLowerCase().contains(newText.toLowerCase()))
+                                    noteList.add(note);
+
+                            }
+                            Log.d("NoteHelper", "Checked all the notes, showing a list of " + noteList.size());
+
+                            Collections.sort(noteList, (Comparator<Note>) (m1, m2) -> Long.compare(m2.getDateUpdated(), m1.getDateUpdated()));
+
+                            notes.setAdapter(new NoteAdapter(noteList, NoteFragment.this));
+                            if (noteList.size() == 0) {
+                                indicator.setText("No notes found, create one now!");
+                                indicator.setVisibility(View.VISIBLE);
+                                return;
+                            }
+                            indicator.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                } else {
+                    notesRef.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            List noteList = new ArrayList();
+                            for (DataSnapshot childSnapshot : snapshot.getChildren()) {
+                                Note note = childSnapshot.getValue(Note.class);
+                                Log.d("OwnerHelper", note.getOwner() + " vs " + FirebaseAuth.getInstance().getCurrentUser().getUid());
+                                if (note.isArchived())
+                                    continue;
+                                if (note.getOwner().equals(FirebaseAuth.getInstance().getCurrentUser().getUid())) {
+                                    Log.d("NoteHelper", "A note was found and added into the list.");
+                                    noteList.add(note);
+                                    continue;
+                                }
+                                if (!note.isShared())
+                                    continue;
+                                if (note.getPartner().equals(SessionManager.getInstance().getCurrentUser().getCode()))
+                                    noteList.add(note);
+                            }
+                            Log.d("NoteHelper", "Checked all the notes, showing a list of " + noteList.size());
+
+                            Collections.sort(noteList, (Comparator<Note>) (m1, m2) -> Long.compare(m2.getDateUpdated(), m1.getDateUpdated()));
+
+                            notes.setAdapter(new NoteAdapter(noteList, NoteFragment.this));
+                            if (noteList.size() == 0) {
+                                indicator.setText("No notes found, create one now!");
+                                indicator.setVisibility(View.VISIBLE);
+                                return;
+                            }
+                            indicator.setVisibility(View.INVISIBLE);
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
 
             }
         });
