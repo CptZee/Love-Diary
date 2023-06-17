@@ -3,6 +3,10 @@ package com.github.cptzee.lovediary.Menu.Splash;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AccelerateDecelerateInterpolator;
+import android.view.animation.Animation;
+import android.view.animation.TranslateAnimation;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -43,6 +47,23 @@ public class GreetingFragment extends Fragment {
                     endGreeting();
                     return;
                 }
+                TextView textView = view.findViewById(R.id.greetings);
+                ImageView logoView = view.findViewById(R.id.logoView);
+
+                /**
+
+                Animation textAnimation = new TranslateAnimation(0, 0, 0, 60);
+                textAnimation.setDuration(1000);
+                textAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+                textAnimation.setFillAfter(true);
+                textView.startAnimation(textAnimation);
+
+                Animation imageAnimation = new TranslateAnimation(0, 0, -200, 0);
+                imageAnimation.setDuration(1000);
+                imageAnimation.setInterpolator(new AccelerateDecelerateInterpolator());
+                imageAnimation.setFillAfter(true);
+                logoView.startAnimation(imageAnimation);
+                 */
                 greetings.setText("Hello there, " + username);
                 endGreeting();
             }

@@ -9,24 +9,19 @@
         android:id="@+id/linearLayout2"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:layout_margin="10dp"
         android:orientation="horizontal"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <com.google.android.material.textfield.TextInputLayout
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginHorizontal="5dp"
-            android:layout_weight="0.5"
-            app:boxBackgroundMode="none"
-            app:endIconMode="clear_text">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:id="@+id/note_search"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_width="280dp"
+                android:layout_height="50dp"
+                android:paddingStart="20dp"
+                android:elevation="3dp"
                 android:background="@drawable/container_main_rounded_2"
                 android:drawableStart="@drawable/ic_search"
                 android:drawablePadding="5dp"
@@ -35,11 +30,11 @@
                 android:maxLines="1"
                 android:textStyle="italic" />
 
-        </com.google.android.material.textfield.TextInputLayout>
-
-        <androidx.appcompat.widget.AppCompatButton
+          <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/note_button"
+              android:layout_marginStart="5dp"
             android:layout_width="wrap_content"
+              android:elevation="3dp"
             android:layout_height="wrap_content"
             android:layout_marginEnd="5dp"
             android:layout_weight="0.09"
